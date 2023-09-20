@@ -5,7 +5,7 @@ import {
   Region,
   SmallCountry,
 } from '../interfaces/country.interfaces';
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, combineLatest, map, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class CountriesService {
   getCountriesByRegion(region: Region): Observable<SmallCountry[]> {
     if (!region) return of([]);
 
-    const url: string = `${this.baseUrl}/region/${region}?fields=cca3,name,borders`;
+    const url: string = `${ this.baseUrl }/region/${ region }?fields=cca3,name,borders`;
 
     return this.http.get<Country[]>(url).pipe(
       map((countries) =>
@@ -40,5 +40,29 @@ export class CountriesService {
         }))
       )
     );
+  }
+
+  getCountryByAlphaCode(alphaCode: string): Observable<SmallCountry> {
+    const url = `${ this.baseUrl }/alpha/${ alphaCode }?fields=cca3,name,borders`;
+    return this.http.get<Country>(url).pipe(
+      map((country) => ({
+        name: country.name.common,
+        cca3: country.cca3,
+        borders: country.borders ?? [],
+      }))
+    );
+  }
+
+  getCountryBordersByCodes(borders: string[]): Observable<SmallCountry[]> {
+    if (!borders || borders.length === 0) return of([]);
+
+    const countriesRequests: Observable<SmallCountry>[] = [];
+
+    borders.forEach((code) => {
+      const request = this.getCountryByAlphaCode(code);
+      countriesRequests.push(request);
+    });
+
+    return combineLatest(countriesRequests);
   }
 }
