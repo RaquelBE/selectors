@@ -17,7 +17,8 @@
     </div>
 
     <!-- Países-->
-    <div class="row mb-3">
+    <!-- si no seleciono continente no me aparece el label y el option de Países (*ngIf="countriesByRegion.length > 0")-->
+    <div class="row mb-3" *ngIf="countriesByRegion.length > 0">
         <div class="col">
             <label class="form-label">País:</label>
             <!--FormControlName está uniendo una parte del formulario con el HTML-->
