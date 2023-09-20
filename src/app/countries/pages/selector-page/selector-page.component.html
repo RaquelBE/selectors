@@ -3,7 +3,7 @@
 
 <!--Conectamos el formulario con el objeto HTML-->
 <form [formGroup]="myForm">
-    <!-- Regones de los Países-->
+    <!-- Regiones de los Países-->
     <div class="row mb-3">
         <div class="col">
             <label class="form-label">Continente:</label>
@@ -12,6 +12,19 @@
                 <option value="">--Selecciones Continente--</option>
                 <!-- Me inserta las regiones en el option-->
                 <option *ngFor="let region of regions" [value]="region">{{region}}</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Países-->
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">País:</label>
+            <!--FormControlName está uniendo una parte del formulario con el HTML-->
+            <select formControlName="country" class="form-control">
+                <option value="">--Selecciones País--</option>
+                <!-- Me inserta las regiones en el option-->
+                <!--<option *ngFor="let country of countries" [value]="region">{{region}}</option>-->
             </select>
         </div>
     </div>
