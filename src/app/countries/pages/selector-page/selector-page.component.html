@@ -10,6 +10,8 @@
             <!--FormControlName está uniendo una parte del formulario con el HTML-->
             <select formControlName="region" class="form-control">
                 <option value="">--Selecciones Continente--</option>
+                <!-- Me inserta las regiones en el option-->
+                <option *ngFor="let region of regions" [value]="region">{{region}}</option>
             </select>
         </div>
     </div>
