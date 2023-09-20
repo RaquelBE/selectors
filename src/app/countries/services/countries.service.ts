@@ -54,7 +54,7 @@ export class CountriesService {
   }
 
   getCountryBordersByCodes(borders: string[]): Observable<SmallCountry[]> {
-    if (!borders || borders.length === 0) return of([]);
+    if (!borders || borders.length === 0) return of([]); //cláusula de seguridad
 
     const countriesRequests: Observable<SmallCountry>[] = [];
 
@@ -63,6 +63,6 @@ export class CountriesService {
       countriesRequests.push(request);
     });
 
-    return combineLatest(countriesRequests);
+    return combineLatest(countriesRequests); // combineLatest -> emite hasta que todos los observables dentro del arreglo emitan un valor. Se emiten de forma simultánea
   }
 }
